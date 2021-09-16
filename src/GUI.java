@@ -8,18 +8,21 @@ public class GUI extends GBFrame {
 	
 	static JFrame frm;
 	ArrayList<Student> Class = new ArrayList<>();
-	Iterator iterator = Class.iterator();
+	Iterator<Student> it;
 	JTextArea outputArea;
 	JButton addButton;
 	JButton removeButton;
 	JButton modifyButton;
 	JButton addStudentButton;
+	JButton removeStudentButton;
+	JButton backButton;
 	JTextField nameField;
 	IntegerField IDField;
 	DoubleField GPAField;
 	IntegerField gradeField;
 	
 	public void initMainMenu() {
+		it = Class.iterator();
 		outputArea = addTextArea("", 1, 1, 1, 6);
 		addButton = addButton("Add Student", 7,1,1,1);
 		removeButton = addButton("Remove Student", 8,1,1,1);
@@ -38,6 +41,7 @@ public class GUI extends GBFrame {
 //		JButton printClassButton = addButton("Compute", 4,1,2,1);
 		frm.validate();
 		updateList();
+		it = Class.iterator();
 	}
 	
 	public void addMenu() {
@@ -52,7 +56,19 @@ public class GUI extends GBFrame {
 		GPAField = addDoubleField(0.0, 3,2,1,1);
 		JLabel gradeLabel = addLabel("Grade", 4,1,1,1);
 		gradeField = addIntegerField(0, 4,2,1,1);
-		addStudentButton = addButton("Add Student", 5,1,2,1);
+		backButton = addButton("Back", 5,1,1,1);
+		addStudentButton = addButton("Add Student", 5,2,1,1);
+		frm.validate();
+	}
+	
+	public void removeMenu() {
+		frm.getContentPane().removeAll();
+		frm.setSize(250, 100);
+		frm.repaint();
+		JLabel nameLabel = addLabel("Name", 1,1,1,1);
+		nameField = addTextField("", 1,2,1,1);
+		backButton = addButton("Back", 2,1,1,1);
+		removeStudentButton = addButton("Remove Student", 2,2,1,1);
 		frm.validate();
 	}
 	
@@ -67,9 +83,15 @@ public class GUI extends GBFrame {
 	}
 	
 	public void buttonClicked(JButton buttonObj){
-	    if(buttonObj == addButton) {
+		if(buttonObj == backButton) {
+	    	mainMenu();
+	    	return;
+		} else if(buttonObj == addButton) {
 	    	addMenu();
 	    	System.out.println("add");
+	    	return;
+	    } else if(buttonObj == removeButton) {
+	    	removeMenu();
 	    	return;
 	    } else if (buttonObj == addStudentButton) {
 	    	String name = nameField.getText();
@@ -91,6 +113,17 @@ public class GUI extends GBFrame {
 	    	}
 	    	Student s = new Student(name, ID, GPA, grade);
 	    	Class.add(s);
+	    	mainMenu();
+	    	return;
+	    } else if (buttonObj == removeStudentButton) {
+	    	String name = nameField.getText();
+	    	if(name.equals("")) {
+	    		messageBox("Error: Please Enter Name");
+	            return;
+	    	} 
+	    	while(it.hasNext()) {
+	    		  System.out.println(it.next());
+	    	}
 	    	mainMenu();
 	    	return;
 	    }
