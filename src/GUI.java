@@ -1,38 +1,63 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 import BreezySwing.*;
 
 public class GUI extends GBFrame {
 	
+	static JFrame frm;
 	ArrayList<Student> Class = new ArrayList<>();
+	Iterator iterator = Class.iterator();
 	JTextArea outputArea;
 	JButton addButton;
 	JButton removeButton;
 	JButton modifyButton;
+	JButton addStudentButton;
+	JTextField nameField;
+	IntegerField IDField;
+	DoubleField GPAField;
+	IntegerField gradeField;
 	
-//	JButton addButton = addButton("Compute", 4,1,2,1);
-//	JButton computeButton = addButton("Compute", 4,1,2,1);
-//	JButton computeButton = addButton("Compute", 4,1,2,1);
-//	JLabel incomeLabel = addLabel("Income", 1,1,1,1);
-//	DoubleField incomeField = addDoubleField(0.0, 1,2,1,1);
+	public void initMainMenu() {
+		outputArea = addTextArea("", 1, 1, 1, 6);
+		addButton = addButton("Add Student", 7,1,1,1);
+		removeButton = addButton("Remove Student", 8,1,1,1);
+		modifyButton = addButton("Modify Student", 9,1,1,1);
+	}
+	
 	
 	public void mainMenu() {
-		outputArea = addTextArea("", 1, 1, 1, 5);
-		addButton = addButton("Add Student", 6,1,1,1);
-		removeButton = addButton("Remove Student", 7,1,1,1);
-		modifyButton = addButton("Modify Student", 8,1,1,1);
+		frm.getContentPane().removeAll();
+		frm.setSize(250, 500);
+		frm.repaint();
+		outputArea = addTextArea("", 1, 1, 1, 6);
+		addButton = addButton("Add Student", 7,1,1,1);
+		removeButton = addButton("Remove Student", 8,1,1,1);
+		modifyButton = addButton("Modify Student", 9,1,1,1);
 //		JButton printClassButton = addButton("Compute", 4,1,2,1);
+		frm.validate();
+		updateList();
 	}
 	
 	public void addMenu() {
+		frm.getContentPane().removeAll();
+		frm.setSize(250, 250);
+		frm.repaint();
 		JLabel nameLabel = addLabel("Name", 1,1,1,1);
-		JTextField nameField = addTextField("", 1,2,1,1);
-		
+		nameField = addTextField("", 1,2,1,1);
+		JLabel IDLabel = addLabel("ID", 2,1,1,1);
+		IDField = addIntegerField(0, 2,2,1,1);
+		JLabel GPALabel = addLabel("GPA", 3,1,1,1);
+		GPAField = addDoubleField(0.0, 3,2,1,1);
+		JLabel gradeLabel = addLabel("Grade", 4,1,1,1);
+		gradeField = addIntegerField(0, 4,2,1,1);
+		addStudentButton = addButton("Add Student", 5,1,2,1);
+		frm.validate();
 	}
 	
 	public GUI() {
-		mainMenu();
+		initMainMenu();
 		Student a = new Student("a", 111, 4.1, 90);
 		Class.add(a);
 		Student b = new Student("b", 121, 2.1, 60);
@@ -45,6 +70,29 @@ public class GUI extends GBFrame {
 	    if(buttonObj == addButton) {
 	    	addMenu();
 	    	System.out.println("add");
+	    	return;
+	    } else if (buttonObj == addStudentButton) {
+	    	String name = nameField.getText();
+	    	int ID = IDField.getNumber();
+	    	double GPA = GPAField.getNumber();
+	    	int grade = gradeField.getNumber();
+	    	if(name.equals("")) {
+	    		messageBox("Error: Please Enter Name");
+	            return;
+	    	} else if(!IDField.isValidNumber() || ID <= 0) {
+	    		messageBox("Error: Please Make Sure ID is Number and is Greater than 0");
+	            return;
+	    	} else if(!GPAField.isValidNumber() || GPA <= 0) {
+	    		messageBox("Error: Please Make Sure GPA is Number and is Greater than 0");
+	            return;
+	    	} else if(!gradeField.isValidNumber() || grade <= 0) {
+	    		messageBox("Error: Please Make Sure Grade is Number and is Greater than 0");
+	            return;
+	    	}
+	    	Student s = new Student(name, ID, GPA, grade);
+	    	Class.add(s);
+	    	mainMenu();
+	    	return;
 	    }
 	}
 	
@@ -60,7 +108,7 @@ public class GUI extends GBFrame {
 	}
 	
 	public static void main(String[] args) {
-		JFrame frm = new GUI();
+		frm = new GUI();
 		frm.setTitle("Class");
 		frm.setSize(250, 500);
 		frm.setVisible(true);
