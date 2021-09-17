@@ -15,11 +15,15 @@ public class GUI extends GBFrame {
 	JButton modifyButton;
 	JButton addStudentButton;
 	JButton removeStudentButton;
+	JButton modifyInfoButton;
+	JButton modifyStudentButton;
 	JButton backButton;
+	JButton backModifyButton;
 	JTextField nameField;
 	IntegerField IDField;
 	DoubleField GPAField;
 	IntegerField gradeField;
+	Student temp;
 	
 	public void initMainMenu() {
 		it = Class.iterator();
@@ -45,30 +49,67 @@ public class GUI extends GBFrame {
 	
 	public void addMenu() {
 		frm.getContentPane().removeAll();
-		frm.setSize(250, 250);
+		frm.setSize(250, 578);
 		frm.repaint();
-		JLabel nameLabel = addLabel("Name", 1,1,1,1);
-		nameField = addTextField("", 1,2,1,1);
-		JLabel IDLabel = addLabel("ID", 2,1,1,1);
-		IDField = addIntegerField(0, 2,2,1,1);
-		JLabel GPALabel = addLabel("GPA", 3,1,1,1);
-		GPAField = addDoubleField(0.0, 3,2,1,1);
-		JLabel gradeLabel = addLabel("Grade", 4,1,1,1);
-		gradeField = addIntegerField(0, 4,2,1,1);
-		backButton = addButton("Back", 5,1,1,1);
-		addStudentButton = addButton("Add Student", 5,2,1,1);
+		outputArea = addTextArea("", 1, 1, 2, 6);
+		JLabel nameLabel = addLabel("Name", 7,1,1,1);
+		nameField = addTextField("", 7,2,1,1);
+		JLabel IDLabel = addLabel("ID", 8,1,1,1);
+		IDField = addIntegerField(0, 8,2,1,1);
+		JLabel GPALabel = addLabel("GPA", 9,1,1,1);
+		GPAField = addDoubleField(0.0, 9,2,1,1);
+		JLabel gradeLabel = addLabel("Grade", 10,1,1,1);
+		gradeField = addIntegerField(0, 10,2,1,1);
+		backButton = addButton("Back", 11,1,1,1);
+		addStudentButton = addButton("Add Student", 11,2,1,1);
 		frm.validate();
+		updateList();
 	}
 	
 	public void removeMenu() {
 		frm.getContentPane().removeAll();
-		frm.setSize(250, 100);
+		frm.setSize(250, 444);
 		frm.repaint();
-		JLabel nameLabel = addLabel("Name", 1,1,1,1);
-		nameField = addTextField("", 1,2,1,1);
-		backButton = addButton("Back", 2,1,1,1);
-		removeStudentButton = addButton("Remove Student", 2,2,1,1);
+		outputArea = addTextArea("", 1, 1, 2, 6);
+		JLabel nameLabel = addLabel("Name", 7,1,1,1);
+		nameField = addTextField("", 7,2,1,1);
+		backButton = addButton("Back", 8,1,1,1);
+		removeStudentButton = addButton("Remove Student", 8,2,1,1);
 		frm.validate();
+		updateList();
+	}
+	
+	public void modifyMenu() {
+		frm.getContentPane().removeAll();
+		frm.setSize(250, 443);
+		frm.repaint();
+		outputArea = addTextArea("", 1, 1, 2, 6);
+		JLabel nameLabel = addLabel("Name", 7,1,1,1);
+		nameField = addTextField("", 7,2,1,1);
+		backButton = addButton("Back", 8,1,1,1);
+		modifyInfoButton = addButton("Modify Student", 8,2,1,1);
+		frm.validate();
+		updateList();
+	}
+	
+	public void modifyStudentMenu(Student s) {
+		frm.getContentPane().removeAll();
+		frm.setSize(250, 578);
+		frm.repaint();
+		outputArea = addTextArea("", 1, 1, 2, 6);
+		JLabel nameLabel = addLabel("Name", 7,1,1,1);
+		nameField = addTextField(s.getName(), 7,2,1,1);
+		JLabel IDLabel = addLabel("ID", 8,1,1,1);
+		IDField = addIntegerField(s.getID(), 8,2,1,1);
+		JLabel GPALabel = addLabel("GPA", 9,1,1,1);
+		GPAField = addDoubleField(s.getGPA(), 9,2,1,1);
+		JLabel gradeLabel = addLabel("Grade", 10,1,1,1);
+		gradeField = addIntegerField(s.getGrade(), 10,2,1,1);
+		backModifyButton = addButton("Back", 11,1,1,1);
+		addStudentButton = addButton("Add Student", 11,2,1,1);
+		frm.validate();
+		updateList();
+		temp = s;
 	}
 	
 	public GUI() {
@@ -85,29 +126,36 @@ public class GUI extends GBFrame {
 		if(buttonObj == backButton) {
 	    	mainMenu();
 	    	return;
+		} if(buttonObj == backModifyButton) {
+	    	modifyMenu();
+	    	return;
 		} else if(buttonObj == addButton) {
 	    	addMenu();
-	    	System.out.println("add");
 	    	return;
 	    } else if(buttonObj == removeButton) {
 	    	removeMenu();
 	    	return;
+	    } else if(buttonObj == modifyButton) {
+	    	modifyMenu();
+	    	return;
 	    } else if (buttonObj == addStudentButton) {
 	    	String name = nameField.getText();
 	    	int ID = IDField.getNumber();
+	    	System.out.println(ID);
 	    	double GPA = GPAField.getNumber();
 	    	int grade = gradeField.getNumber();
+	    	System.out.println(IDField.isValid());
 	    	if(name.equals("")) {
 	    		messageBox("Error: Please Enter Name");
 	            return;
-	    	} else if(!IDField.isValidNumber() || ID <= 0) {
-	    		messageBox("Error: Please Make Sure ID is Number and is Greater than 0");
+	    	} else if(!IDField.isValid()) {
+	    		messageBox("Error: Please Make Sure ID is Number");
 	            return;
-	    	} else if(!GPAField.isValidNumber() || GPA <= 0) {
-	    		messageBox("Error: Please Make Sure GPA is Number and is Greater than 0");
+	    	} else if(!GPAField.isValid()) {
+	    		messageBox("Error: Please Make Sure GPA is Number");
 	            return;
-	    	} else if(!gradeField.isValidNumber() || grade <= 0) {
-	    		messageBox("Error: Please Make Sure Grade is Number and is Greater than 0");
+	    	} else if(!gradeField.isValid()) {
+	    		messageBox("Error: Please Make Sure Grade is Number");
 	            return;
 	    	}
 	    	Student s = new Student(name, ID, GPA, grade);
@@ -115,16 +163,73 @@ public class GUI extends GBFrame {
 	    	mainMenu();
 	    	return;
 	    } else if (buttonObj == removeStudentButton) {
-	    	it = Class.iterator();
 	    	String name = nameField.getText();
 	    	if(name.equals("")) {
 	    		messageBox("Error: Please Enter Name");
 	            return;
 	    	} 
+	    	it = Class.iterator();
 	    	while(it.hasNext()) {
-	    		  System.out.println(it.next());
+	    		Student s = it.next();
+	    		if(s.getName().equals(name)) {
+	    			it.remove();
+	    			mainMenu();
+	    			return;
+	    		}
 	    	}
-	    	mainMenu();
+	    	messageBox("Error: Student Not Found");
+	    	return;
+	    } else if (buttonObj == modifyInfoButton) {
+	    	String name = nameField.getText();
+	    	if(name.equals("")) {
+	    		messageBox("Error: Please Enter Name");
+	            return;
+	    	} 
+	    	it = Class.iterator();
+	    	while(it.hasNext()) {
+	    		Student s = it.next();
+	    		if(s.getName().equals(name)) {
+	    			modifyStudentMenu(s);
+	    			return;
+	    		}
+	    	}
+	    	messageBox("Error: Student Not Found");
+	    	return;
+	    } else if (buttonObj == modifyStudentButton) {
+	    	String name = nameField.getText();
+	    	int ID = IDField.getNumber();
+	    	double GPA = GPAField.getNumber();
+	    	int grade = gradeField.getNumber();
+	    	if(name.equals("")) {
+	    		messageBox("Error: Please Enter Name");
+	            return;
+	    	} else if(!IDField.isValidNumber()) {
+	    		messageBox("Error: Please Make Sure ID is Number and is Greater than 0");
+	            return;
+	    	} else if(!GPAField.isValidNumber()) {
+	    		messageBox("Error: Please Make Sure GPA is Number and is Greater than 0");
+	            return;
+	    	} else if(!gradeField.isValidNumber()) {
+	    		messageBox("Error: Please Make Sure Grade is Number and is Greater than 0");
+	            return;
+	    	}
+	    	
+	    	
+	    	
+	
+	    	if(name.equals("")) {
+	    		messageBox("Error: Please Enter Name");
+	            return;
+	    	} 
+	    	it = Class.iterator();
+	    	while(it.hasNext()) {
+	    		Student s = it.next();
+	    		if(s.getName().equals(name)) {
+	    			modifyStudentMenu(s);
+	    			return;
+	    		}
+	    	}
+	    	messageBox("Error: Student Not Found");
 	    	return;
 	    }
 	}
