@@ -115,7 +115,7 @@ public class GUI extends GBFrame {
 	    	mainMenu();
 	    	return;
 	    } else if (buttonObj == removeStudentButton) {
-		it = Class.iterator();
+	    	it = Class.iterator();
 	    	String name = nameField.getText();
 	    	if(name.equals("")) {
 	    		messageBox("Error: Please Enter Name");
