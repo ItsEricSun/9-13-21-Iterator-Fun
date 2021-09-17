@@ -36,7 +36,7 @@ public class GUI extends GBFrame {
 
 	public void mainMenu() {
 		frm.getContentPane().removeAll();
-		frm.setSize(250, 500);
+		frm.setSize(250, 750);
 		frm.repaint();
 		outputArea = addTextArea("", 1, 1, 1, 6);
 		addButton = addButton("Add Student", 7,1,1,1);
@@ -48,7 +48,7 @@ public class GUI extends GBFrame {
 
 	public void addMenu() {
 		frm.getContentPane().removeAll();
-		frm.setSize(250, 578);
+		frm.setSize(250, 750);
 		frm.repaint();
 		outputArea = addTextArea("", 1, 1, 2, 6);
 		JLabel nameLabel = addLabel("Name", 7,1,1,1);
@@ -67,7 +67,7 @@ public class GUI extends GBFrame {
 
 	public void removeMenu() {
 		frm.getContentPane().removeAll();
-		frm.setSize(250, 444);
+		frm.setSize(250, 750);
 		frm.repaint();
 		outputArea = addTextArea("", 1, 1, 2, 6);
 		JLabel nameLabel = addLabel("Name", 7,1,1,1);
@@ -80,7 +80,7 @@ public class GUI extends GBFrame {
 
 	public void modifyMenu() {
 		frm.getContentPane().removeAll();
-		frm.setSize(250, 444);
+		frm.setSize(250, 750);
 		frm.repaint();
 		outputArea = addTextArea("", 1, 1, 2, 6);
 		JLabel nameLabel = addLabel("Name", 7,1,1,1);
@@ -94,7 +94,7 @@ public class GUI extends GBFrame {
 	public void modifyStudentMenu(Student s) {
 		System.out.println(Class.size());
 		frm.getContentPane().removeAll();
-		frm.setSize(250, 578);
+		frm.setSize(250, 750);
 		frm.repaint();
 		outputArea = addTextArea("", 1, 1, 2, 6);
 		JLabel nameLabel = addLabel("Name", 7,1,1,1);
@@ -114,10 +114,10 @@ public class GUI extends GBFrame {
 
 	public GUI() {
 		initMainMenu();
-		Student a = new Student("a", 111, 4.1, 90);
-		Class.add(a);
-		Student b = new Student("b", 121, 2.1, 60);
-		Class.add(b);
+//		Student a = new Student("a", 111, 4.1, 90);
+//		Class.add(a);
+//		Student b = new Student("b", 121, 2.1, 60);
+//		Class.add(b);
 		updateList();
 	}
 
@@ -222,7 +222,7 @@ public class GUI extends GBFrame {
 
 	public void updateList() {
 		if(Class.size() == 0) {
-			outputArea.append ("None");
+			outputArea.append ("No Students");
 		} else {
 			for(Student s : Class) {
 				outputArea.append (s.toString());
@@ -233,7 +233,7 @@ public class GUI extends GBFrame {
 	public static void main(String[] args) {
 		frm = new GUI();
 		frm.setTitle("Class");
-		frm.setSize(250, 500);
+		frm.setSize(250, 750);
 		frm.setVisible(true);
 	}
 }
