@@ -41,7 +41,6 @@ public class GUI extends GBFrame {
 //		JButton printClassButton = addButton("Compute", 4,1,2,1);
 		frm.validate();
 		updateList();
-		it = Class.iterator();
 	}
 	
 	public void addMenu() {
